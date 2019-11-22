@@ -15,15 +15,11 @@ class Solution:
             y = q.val if (q != None) else 0            
             sum = x + y + carry
             carry = sum // 10
-            # print("p val : ", p.val, "q val : ", q.val)
-            # print("carry : ", carry)
-            # print("sum : ", sum)
             head.next = ListNode(sum % 10)
             if p != None:
                 p = p.next
             if q != None:
                 q = q.next
-            # print("head val : ", head.val)
             head = head.next
         if carry > 0:
             head.next = ListNode(carry)
