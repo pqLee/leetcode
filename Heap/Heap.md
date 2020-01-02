@@ -7,7 +7,8 @@
 5.移动到父结点到5,一次重复上述步骤,交换5和16,在交换14和5,在交换5和6  
 所有节点交换完毕,最大堆构建完成
 ![两数之和](https://github.com/pqLee/leetcode/blob/master/images/heap.png)
-
+## 应用
+C++中priority_queue是堆模板，priority_queue底层就是堆实现
 ## 代码实现(C++)
 ```
 void initHeap(std::vector<int>& arr, int size)
