@@ -6,49 +6,87 @@
 4.移动到下个父结点1,如图(e)所示,然后交换1和16,如图(f)所示,此时我们发现交换后,1的子节点并不是最大的,我们接着在交换(如图g)所示  
 5.移动到父结点到5,一次重复上述步骤,交换5和16,在交换14和5,在交换5和6  
 所有节点交换完毕,最大堆构建完成
-![两数之和](https://github.com/pqLee/leetcode/blob/master/images/heap.png)
+![建堆](https://github.com/pqLee/leetcode/blob/master/images/heap.png)
 ## 应用
-C++中priority_queue是堆模板，priority_queue底层就是堆实现
+C++中priority_queue是堆模板，priority_queue底层就是堆实现  
+堆排序：  
+· 将数组建堆  
+· 将堆顶与最后一个元素交换，这样最后一个元素就是最大值了(针对大顶堆),然后再将交换后的堆调整为大顶堆(heapify操作)  
+· 逐次执行上一步操作，就从大到小逐次取出数据，数组最终就是有序数组
+![堆排序](https://github.com/pqLee/leetcode/blob/master/images/heap_sort.gif)
 ## 代码实现(C++)
 ```
-//// 由数组建堆
-void initHeap(std::vector<int>& arr, int size)
+#include <iostream>
+#include <vector>
+#include <queue>
+
+//// 堆化操作，针对i节点调整，实现堆化
+void heapify(std::vector<int>& arr, int i, int len)
 {
-    // 寻找最后一个节点的父节点
-    for (int pIndex = size/2; pIndex > 0; pIndex--)
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    int largest = i;   // 记录父节点、左节点、右节点中最大值位置
+    if (left < len && arr[left] > arr[largest])
     {
-        int tmp = pIndex - 1;
-        while((tmp*2) <= size - 1)   // 表示该节点有孩子节点——>如果该节点为叶子节点，循环结束
-        {
-            // 寻找这个节点的最大子节点
-            int maxChildIndex = 0; 
-            if ((tmp*2) + 1 > size - 1) // 该节点没有右孩子，则左孩子是最大节点
-            {
-                maxChildIndex = tmp*2;
-            }
-            else
-            {
-                maxChildIndex = arr[tmp*2]>arr[tmp*2+1] ? tmp*2 : tmp*2+1; 
-            }
+        largest = left;
+    }
+    
+    if (right < len && arr[right] > arr[largest])
+    {
+        largest = right;
+    }
 
-            // 比较最大子节点和当前父节点，如果父节点的值小于最大子节点，交换两个节点
-            if (arr[tmp] < arr[maxChildIndex])
-            {
-                int a = arr[tmp];
-                arr[tmp] = arr[maxChildIndex];
-                arr[maxChildIndex] = a;
-                tmp = maxChildIndex;
-            }
-            else
-            {
-                // 当该节点不再需要交换时，结束向下查找(退出while循环)
-                break;
-            } // 故结束这个while循环有两个方式：到达子节点和该节点不需要交换
+    // 如果最大值不是父节点
+    if (largest != i)  
+    {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
 
-        }
+        // 一直向下递归调用，直到该节点满足：父节点大于等于左右两个子节点
+        heapify(arr, largest, len);
     }
 }
 
+// 建堆时从底向上调整
+void buildHeap(std::vector<int>& arr, int len)
+{
+    for (int i = len/2; i >= 0; i--)
+    {
+        heapify(arr, i, len);
+    }
+}
+
+void heapSort(std::vector<int>& arr)
+{
+    int len = arr.size();
+
+    buildHeap(arr, len);
+
+    for (int i = len - 1; i > 0; i--)
+    {
+        int temp = arr[i];
+        arr[i] = arr[0];
+        arr[0] = temp;
+        len--;
+        heapify(arr, 0, len);
+    }
+}
+
+
+int main()
+{
+    std::vector<int> nums = {91, 83, 87, 79, 72, 43, 38, 38, 9, 87};
+
+    heapSort(nums);
+
+    for (int i = 0; i < nums.size(); i++)
+    {
+        std::cout << nums[i] << " " ;
+    }
+    std::cout << std::endl;
+    return 0;
+}
 /* 堆排序（Heapsort）是指利用堆这种数据结构（所设计的一种排序算法。堆积是一个近似完全二叉树的结构，并同时满足堆积的性质：即子结点的键值或索引总是小于（或者大于）它的父节点。堆排序可以说是一种利用堆的概念来排序的选择排序。分为两种方法：  
         大顶堆：每个节点的值都大于或等于其子节点的值，在堆排序算法中用于升序排列；  
         小顶堆：每个节点的值都小于或等于其子节点的值，在堆排序算法中用于降序排列；  
