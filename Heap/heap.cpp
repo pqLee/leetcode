@@ -2,8 +2,13 @@
 #include <vector>
 #include <queue>
 
+<<<<<<< HEAD
 template <typename T>
 void heapify(std::vector<T>& arr, int i, int len)
+=======
+//// 堆化操作，针对i节点调整，实现堆化
+void heapify(std::vector<int>& arr, int i, int len)
+>>>>>>> 63d808f548d17068acbc9e64c8ac3b1583f410c7
 {
     int left = 2 * i + 1;
     int right = 2 * i + 2;
@@ -42,8 +47,12 @@ void buildHeap(std::vector<T>& arr, int len)
     }
 }
 
+<<<<<<< HEAD
 template <typename T>
 void heapSort(std::vector<T>& arr)
+=======
+void heapSort(std::vector<int>& arr)
+>>>>>>> 63d808f548d17068acbc9e64c8ac3b1583f410c7
 {
     int len = arr.size();
     buildHeap(arr, len);
@@ -61,21 +70,25 @@ void heapSort(std::vector<T>& arr)
 
 int main()
 {
-    // std::vector<int> nums = {5, 1, 13, 3, 16, 7, 10, 14, 6, 9};
     std::vector<int> nums = {91, 83, 87, 79, 72, 43, 38, 38, 9, 87};
+<<<<<<< HEAD
     std::vector<float> nums_float = {5.1, 4.3, 8.7, 3.4, 6.9};
     
     // buildHeap(nums, nums.size());
     // heapSort<int>(nums);
     heapSort<float>(nums_float);
+=======
+>>>>>>> 63d808f548d17068acbc9e64c8ac3b1583f410c7
 
     for (int i = 0; i < nums_float.size(); i++)
     {
         std::cout << nums_float[i] << " " ;
     }
     std::cout << std::endl;
-
     return 0;
 }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 63d808f548d17068acbc9e64c8ac3b1583f410c7
